@@ -12,7 +12,8 @@
     "ProductAPI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:14284",
+      "launchUrl": "swagger/index.html",
+      "applicationUrl": "http://localhost:25885",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -21,7 +22,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "swagger/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
