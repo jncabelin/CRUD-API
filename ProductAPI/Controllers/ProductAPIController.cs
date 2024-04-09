@@ -113,8 +113,8 @@ public class ProductAPIController : ControllerBase
         return Ok(result.Value);
     }
 
-    [HttpPatch("/UpdateProduct")]
-    public async Task<IActionResult> UpdateProduct([FromBody, Required] UpdateProductRequest request)
+    [HttpPatch("/UpdateProduct/{id}")]
+    public async Task<IActionResult> UpdateProduct([FromRoute] int id, [FromBody, Required] UpdateProductRequest request)
     {
         if (request == null)
         {
@@ -125,7 +125,7 @@ public class ProductAPIController : ControllerBase
             };
         }
 
-        var result = await _productRepository.GetProductByIdAsync(request.Id);
+        var result = await _productRepository.GetProductByIdAsync(id);
         if (result.IsFailed)
         {
             _logger.LogInformation(result.Reasons.First().ToString());
@@ -146,14 +146,17 @@ public class ProductAPIController : ControllerBase
             };
         }
 
-        var productExists = await _productRepository.ProductExistsAsync(product);
-        if (productExists.IsSuccess && productExists.Value!=product.Id)
+        if (!String.IsNullOrEmpty(product.Name) || !String.IsNullOrEmpty(product.Name))
         {
-            _logger.LogInformation(ProductMessage.ProductDuplicate);
-            return new ObjectResult(ProductMessage.ProductDuplicate)
+            var productExists = await _productRepository.ProductExistsAsync(product);
+            if (productExists.IsSuccess && productExists.Value != product.Id)
             {
-                StatusCode = StatusCodes.Status400BadRequest,
-            };
+                _logger.LogInformation(ProductMessage.ProductDuplicate);
+                return new ObjectResult(ProductMessage.ProductDuplicate)
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                };
+            }
         }
 
         var updateResult = await _productRepository.UpdateProductAsync(product);

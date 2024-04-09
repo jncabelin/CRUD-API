@@ -202,7 +202,7 @@ namespace ProductAPI.Tests.ProductAPI.UnitTests.Repositories
             var sut = new ProductAPIController(_productRepository.Object, _mapper.Object, _logger.Object);
 
             // Act
-            var result = await sut.UpdateProduct(null);
+            var result = await sut.UpdateProduct(0, null);
             var objResult = result as ObjectResult;
 
             // Assert
@@ -220,7 +220,7 @@ namespace ProductAPI.Tests.ProductAPI.UnitTests.Repositories
             var request = new UpdateProductRequest {Id = 1, Name = "name", Brand = "brand", Price = new Decimal(10.0)};
             
             // Act
-            var result = await sut.UpdateProduct(request);
+            var result = await sut.UpdateProduct(0, request);
             var objResult = result as ObjectResult;
 
             // Assert
@@ -239,7 +239,7 @@ namespace ProductAPI.Tests.ProductAPI.UnitTests.Repositories
             var request = new UpdateProductRequest { Id = 1, Name = "name", Brand = "brand", Price = new Decimal(10.0) };
 
             // Act
-            var result = await sut.UpdateProduct(request);
+            var result = await sut.UpdateProduct(1, request);
             var objResult = result as ObjectResult;
 
             // Assert
@@ -259,7 +259,7 @@ namespace ProductAPI.Tests.ProductAPI.UnitTests.Repositories
             var request = new UpdateProductRequest { Id = 1, Name = "name", Brand = "brand", Price = new Decimal(10.0) };
 
             // Act
-            var result = await sut.UpdateProduct(request);
+            var result = await sut.UpdateProduct(1, request);
             var objResult = result as ObjectResult;
 
             // Assert
@@ -280,7 +280,7 @@ namespace ProductAPI.Tests.ProductAPI.UnitTests.Repositories
             var request = new UpdateProductRequest { Id = 1, Name = "name", Brand = "brand", Price = new Decimal(10.0) };
 
             // Act
-            var result = await sut.UpdateProduct(request);
+            var result = await sut.UpdateProduct(1, request);
             var objResult = result as ObjectResult;
 
             // Assert
@@ -301,7 +301,7 @@ namespace ProductAPI.Tests.ProductAPI.UnitTests.Repositories
             var request = new UpdateProductRequest { Id = 1, Name = "name", Brand = "brand", Price = new Decimal(10.0) };
 
             // Act
-            var result = await sut.UpdateProduct(request);
+            var result = await sut.UpdateProduct(1, request);
             var objResult = result as OkResult;
 
             // Assert
