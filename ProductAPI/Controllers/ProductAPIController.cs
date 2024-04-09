@@ -135,7 +135,6 @@ public class ProductAPIController : ControllerBase
             };
         }
 
-
         Product product = _mapper.Map<Product>(request);
         if (product == null)
         {
@@ -146,17 +145,14 @@ public class ProductAPIController : ControllerBase
             };
         }
 
-        if (!String.IsNullOrEmpty(product.Name) || !String.IsNullOrEmpty(product.Name))
+        var productExists = await _productRepository.ProductExistsAsync(product);
+        if (productExists.IsSuccess && productExists.Value != product.Id)
         {
-            var productExists = await _productRepository.ProductExistsAsync(product);
-            if (productExists.IsSuccess && productExists.Value != product.Id)
+            _logger.LogInformation(ProductMessage.ProductDuplicate);
+            return new ObjectResult(ProductMessage.ProductDuplicate)
             {
-                _logger.LogInformation(ProductMessage.ProductDuplicate);
-                return new ObjectResult(ProductMessage.ProductDuplicate)
-                {
-                    StatusCode = StatusCodes.Status400BadRequest,
-                };
-            }
+                StatusCode = StatusCodes.Status400BadRequest,
+            };
         }
 
         var updateResult = await _productRepository.UpdateProductAsync(product);
