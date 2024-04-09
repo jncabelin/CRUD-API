@@ -12,6 +12,20 @@ namespace ProductAPI.Tests.ProductAPI.UnitTests.TestData
 			Brand = "BrandA",
 			Price = new Decimal(50.0)
 		};
+
+        public static Product TestProducts_ProductB = new Product
+        {
+            Id = 2,
+            Name = "TestB",
+            Brand = "BrandB",
+            Price = new Decimal(50.0)
+        };
+
+        public static List<Product> TestProducts_ProductsList = new List<Product>
+		{
+			TestProducts_ProductA,
+			TestProducts_ProductB
+		};
 	}
 }
 

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using ProductAPI.Models;
 using ProductAPI.DTOs.Product;
+using ProductAPI.Pagination;
 
 namespace ProductAPI.Tests.ProductAPI.UnitTests.Repositories
 {
@@ -157,6 +158,39 @@ namespace ProductAPI.Tests.ProductAPI.UnitTests.Repositories
             Assert.NotNull(objResult);
             Assert.Equal(StatusCodes.Status200OK, objResult.StatusCode);
             Assert.Equal(TestProducts.TestProducts_ProductA, objResult.Value);
+        }
+
+        [Fact]
+        [DisplayName("Fail_RetrieveProducts_InvalidRequest")]
+        public async void Fail_RetrieveProducts_InvalidRequest()
+        {
+            // Arrange
+            var sut = new ProductAPIController(_productRepository.Object, _mapper.Object, _logger.Object);
+
+            // Act
+            var result = await sut.RetrieveProducts(-1, 10);
+            var objResult = result as ObjectResult;
+
+            // Assert
+            Assert.NotNull(objResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objResult.StatusCode);
+        }
+
+        [Fact]
+        [DisplayName("Fail_RetrieveProducts_dbError")]
+        public async void Fail_RetrieveProducts_dbError()
+        {
+            // Arrange
+            _productRepository.Setup(c => c.GetProductsWithOffsetPaginationAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(Result.Fail("Product does not exist."));
+            var sut = new ProductAPIController(_productRepository.Object, _mapper.Object, _logger.Object);
+
+            // Act
+            var result = await sut.RetrieveProducts(1, 10);
+            var objResult = result as ObjectResult;
+
+            // Assert
+            Assert.NotNull(objResult);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objResult.StatusCode);
         }
 
         [Fact]
