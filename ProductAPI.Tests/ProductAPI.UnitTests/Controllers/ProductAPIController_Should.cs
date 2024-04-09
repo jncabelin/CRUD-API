@@ -12,6 +12,7 @@ using System;
 using ProductAPI.Models;
 using ProductAPI.DTOs.Product;
 using ProductAPI.Pagination;
+using Xunit;
 
 namespace ProductAPI.Tests.ProductAPI.UnitTests.Repositories
 {
